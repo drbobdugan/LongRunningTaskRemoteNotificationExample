@@ -2,6 +2,8 @@
 //  AppDelegate.m
 //  LongRunningTaskRemoteNotificationExample
 //
+//  Streamlined from http://www.raywenderlich.com/32960/apple-push-notification-services-in-ios-6-tutorial-part-1
+//
 //  Created by Bob Dugan on 11/17/15.
 //  Copyright © 2015 Bob Dugan. All rights reserved.
 //
@@ -14,32 +16,140 @@
 
 @implementation AppDelegate
 
-
-- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    // Override point for customization after application launch.
+//
+// Delegate for UIApplicationDelegate
+//
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
+{
+    
+      NSLog(@"%s", __PRETTY_FUNCTION__);
+    
+    // Let the device know we want to receive push notifications
+    [[UIApplication sharedApplication] registerUserNotificationSettings:[UIUserNotificationSettings settingsForTypes:(UIUserNotificationTypeSound | UIUserNotificationTypeAlert | UIUserNotificationTypeBadge) categories:nil]];
+    [[UIApplication sharedApplication] registerForRemoteNotifications];
+    
+    // If we were launched BECAUSE of push notifications log this
+    if (launchOptions != nil)
+    {
+        NSDictionary *dictionary = [launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey];
+        if (dictionary != nil)
+        {
+            NSLog(@"%s: Launched from push notification: %@", __PRETTY_FUNCTION__, dictionary);
+        }
+    }
+    
     return YES;
 }
 
-- (void)applicationWillResignActive:(UIApplication *)application {
-    // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
-    // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
+//
+// Delegate for UIApplicationDelegate
+//
+- (void)application:(UIApplication*)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData*)deviceToken
+{
+    NSLog(@"%s: Copy this token to your server's notification: %@", __PRETTY_FUNCTION__, deviceToken);
 }
 
-- (void)applicationDidEnterBackground:(UIApplication *)application {
-    // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
-    // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+//
+// Delegate for UIApplicationDelegate
+//
+- (void)application:(UIApplication*)application didFailToRegisterForRemoteNotificationsWithError:(NSError*)error
+{
+    NSLog(@"%s: Failed to get token, error: %@", __PRETTY_FUNCTION__, error);
 }
 
-- (void)applicationWillEnterForeground:(UIApplication *)application {
-    // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
+//
+// Delegate for UIApplicationDelegate
+//
+- (void)application:(UIApplication*)application didReceiveRemoteNotification:(NSDictionary*)userInfo
+{
+    NSLog(@"%s: Received notification: %@", __PRETTY_FUNCTION__, userInfo);
+    [BackgroundTimeRemainingUtility NSLog];
 }
 
-- (void)applicationDidBecomeActive:(UIApplication *)application {
-    // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+//
+// Delegate for UIApplicationDelegate
+// http://stackoverflow.com/questions/22085234/didreceiveremotenotification-fetchcompletionhandler-open-from-icon-vs-push-not
+//
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {
+    
+    [BackgroundTimeRemainingUtility NSLog];
+    
+    NSLog(@"%s: %@",__PRETTY_FUNCTION__,userInfo);
+    
+    // Update UI
+    dispatch_block_t work_to_do = ^{
+        ViewController* controller = (ViewController*)  self.window.rootViewController;
+        controller.notification.text = [NSString stringWithFormat:@"%@",userInfo];
+    };
+    
+    if ([NSThread isMainThread])
+    {
+        work_to_do();
+    }
+    else
+    {
+        dispatch_sync(dispatch_get_main_queue(), work_to_do);
+    }
+    
+    // Finish with completionHandler
+    completionHandler(UIBackgroundFetchResultNewData);
 }
 
-- (void)applicationWillTerminate:(UIApplication *)application {
-    // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+//
+// Delegate for UIApplicationDelegate
+//
+- (void)application:(UIApplication *)application handleEventsForBackgroundURLSession:(NSString *)identifier
+  completionHandler:(void (^)()) completionHandler
+{
+    NSLog(@"%s", __PRETTY_FUNCTION__);
 }
 
+
+//
+// Delegate for UIApplicationDelegate
+//
+-(void)application:(UIApplication *)application performFetchWithCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler
+{
+    NSLog(@"%s", __PRETTY_FUNCTION__);
+}
+
+//
+// Delegate for UIApplicationDelegate
+//
+- (void)applicationWillResignActive:(UIApplication *)application
+{
+    NSLog(@"%s", __PRETTY_FUNCTION__);
+}
+
+//
+// Delegate for UIApplicationDelegate
+//
+- (void)applicationDidEnterBackground:(UIApplication *)application
+{
+    NSLog(@"%s", __PRETTY_FUNCTION__);
+}
+
+//
+// Delegate for UIApplicationDelegate
+//
+- (void)applicationWillEnterForeground:(UIApplication *)application
+{
+    NSLog(@"%s", __PRETTY_FUNCTION__);
+}
+
+//
+// Delegate for UIApplicationDelegate
+//
+- (void)applicationDidBecomeActive:(UIApplication *)application
+{
+    NSLog(@"%s", __PRETTY_FUNCTION__);
+}
+
+//
+// Delegate for UIApplicationDelegate
+//
+- (void)applicationWillTerminate:(UIApplication *)application
+{
+    NSLog(@"%s", __PRETTY_FUNCTION__);
+}
 @end

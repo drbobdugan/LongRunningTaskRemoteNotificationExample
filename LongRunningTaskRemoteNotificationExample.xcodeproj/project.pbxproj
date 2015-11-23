@@ -13,6 +13,7 @@
 		28E3961B1BFBB054002091C9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 28E396191BFBB054002091C9 /* Main.storyboard */; };
 		28E3961D1BFBB054002091C9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 28E3961C1BFBB054002091C9 /* Assets.xcassets */; };
 		28E396201BFBB054002091C9 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 28E3961E1BFBB054002091C9 /* LaunchScreen.storyboard */; };
+		28E396291BFBB0B1002091C9 /* BackgroundTimeRemainingUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 28E396281BFBB0B1002091C9 /* BackgroundTimeRemainingUtility.m */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +27,8 @@
 		28E3961C1BFBB054002091C9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		28E3961F1BFBB054002091C9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		28E396211BFBB054002091C9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		28E396271BFBB0B1002091C9 /* BackgroundTimeRemainingUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BackgroundTimeRemainingUtility.h; sourceTree = "<group>"; };
+		28E396281BFBB0B1002091C9 /* BackgroundTimeRemainingUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BackgroundTimeRemainingUtility.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,6 +63,8 @@
 			children = (
 				28E396131BFBB054002091C9 /* AppDelegate.h */,
 				28E396141BFBB054002091C9 /* AppDelegate.m */,
+				28E396271BFBB0B1002091C9 /* BackgroundTimeRemainingUtility.h */,
+				28E396281BFBB0B1002091C9 /* BackgroundTimeRemainingUtility.m */,
 				28E396161BFBB054002091C9 /* ViewController.h */,
 				28E396171BFBB054002091C9 /* ViewController.m */,
 				28E396191BFBB054002091C9 /* Main.storyboard */,
@@ -110,6 +115,15 @@
 				TargetAttributes = {
 					28E3960C1BFBB054002091C9 = {
 						CreatedOnToolsVersion = 7.0.1;
+						DevelopmentTeam = M6DXTGUM8K;
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+							com.apple.Push = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -149,6 +163,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				28E396291BFBB0B1002091C9 /* BackgroundTimeRemainingUtility.m in Sources */,
 				28E396181BFBB054002091C9 /* ViewController.m in Sources */,
 				28E396151BFBB054002091C9 /* AppDelegate.m in Sources */,
 				28E396121BFBB054002091C9 /* main.m in Sources */,
@@ -263,10 +278,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = LongRunningTaskRemoteNotificationExample/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = stonehill.edu.LongRunningTaskRemoteNotificationExample;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Debug;
 		};
@@ -274,10 +293,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = LongRunningTaskRemoteNotificationExample/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = stonehill.edu.LongRunningTaskRemoteNotificationExample;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Release;
 		};
